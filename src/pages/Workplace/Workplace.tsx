@@ -72,10 +72,17 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 interface Iprops {
   projectName: string;
   actionFlows: any;
+  webhooks: any[];
+  handleWebhookUpload(
+    variables:any, 
+    callBackuniqueId:string, 
+    parameters:string, 
+    actionFlowUniqueId:string
+    ):void;
 }
 
 export default function DashboardContent(props:Iprops) {
-  const { projectName, actionFlows } = props;
+  const { projectName, actionFlows, webhooks, handleWebhookUpload } = props;
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -136,10 +143,6 @@ export default function DashboardContent(props:Iprops) {
       <Box
         component="main"
         sx={{
-          // backgroundColor: (theme) =>
-          //   theme.palette.mode === 'light'
-          //     ? theme.palette.grey[100]
-          //     : theme.palette.grey[900],
           flexGrow: 1,
           height: '100vh',
           overflow: 'auto'
@@ -155,6 +158,8 @@ export default function DashboardContent(props:Iprops) {
           }}>
           <ActionFlow 
             actionFlows={actionFlows}
+            webhooks={webhooks}
+            handleWebhookUpload={handleWebhookUpload}
           />
         </Box>
       </Box>

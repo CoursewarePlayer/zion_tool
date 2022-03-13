@@ -3,33 +3,25 @@ import {
   Grid,
   Paper,
   List,
-  ListSubheader,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Tabs,
-  Tab,
-  Divider,
-  Collapse,
-  Box,
-  Typography,
-  Button,
-  ButtonGroup
+  Box
 } from '@mui/material';
-import {
-  ExpandLess,
-  ExpandMore
-} from '@mui/icons-material';
 import Editor from './Editor';
 import ActionSelect from './ActionSelect';
+import ActionDetail from './ActionDetail';
 
 interface Iprops {
   actionFlows: any;
+  webhooks: any[];
+  handleWebhookUpload(variables:any, 
+    callBackuniqueId:string, 
+    parameters:string, 
+    actionFlowUniqueId:string
+    ):void;
 }
 
 export default function ActionFlow(props:Iprops) {
-  const { actionFlows } = props
-  const [open, setOpen] = useState("01");
+  const { actionFlows, handleWebhookUpload, webhooks } = props
+  const [open, setOpen] = useState('00');
   const [actionArgs, setActionArgs] = useState({
     inputArgs: {},
     outputValues: {},
@@ -39,8 +31,9 @@ export default function ActionFlow(props:Iprops) {
     displayName: ""
   });
 
-  const Item = (actionFlow:any, index:number) =>  {
 
+  const handleActionflowClick = ((actionFlow:any, key:number) => {
+    
     const {
       inputArgs,
       outputValues,
@@ -49,34 +42,17 @@ export default function ActionFlow(props:Iprops) {
       displayName,
       allNodes
     } = actionFlow;
-
-    const handleActionflowClick = ((code:string, key:number) => {
-      setActionArgs({
-        inputArgs,
-        outputValues,
-        uniqueId,
-        versionId,
-        allNodes,
-        displayName
-      })
-      setOpen(String(key) + "1");
-    })
-
-    return (
-    <React.Fragment key={index}>
-      <ListItemButton onClick={e => handleActionflowClick(allNodes[0].code, index)}>
-        <ListItemText primary={actionFlow.displayName} sx={{
-          textOverflow: "ellipsis",
-          overflow: "hidden",
-          whiteSpace: "nowrap"
-        }}/>
-        {open === String(index) + "1" ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open === String(index) + "1"}>
-        3333
-      </Collapse>
-    </React.Fragment>
-  )}
+    
+    setActionArgs({
+      inputArgs,
+      outputValues,
+      uniqueId,
+      versionId,
+      allNodes,
+      displayName
+    });
+    setOpen(String(key) + "1");
+  })
 
   return (
     <Grid container wrap="nowrap" spacing={0} sx={{
@@ -94,21 +70,37 @@ export default function ActionFlow(props:Iprops) {
             flexDirection: 'column',
             height: "100%",
             backgroundColor: 'primary.main',
-            p: 1
+            p: 1.5
           }}
         >
           <List
-            sx={{ width: '100%', maxWidth: 360, color: 'text.secondary' }}
+            sx={{ 
+              width: '100%',
+              maxWidth: 360, 
+              color: 'text.secondary',
+              height: '100%'
+            }}
             component="nav"
             aria-labelledby="nested-list-subheader"
             subheader={
               <ActionSelect />
             }
           >
-            { actionFlows 
-              ? actionFlows.map((item:any, index:number) =>  Item(item, index))
-              : <React.Fragment />
-            }
+            <Box sx={{height: '100%', overflow: 'scroll'}}>
+              { actionFlows 
+                ? actionFlows.map((actionFlow:any, index:number) => 
+                  <ActionDetail 
+                    actionFlow={actionFlow}
+                    webhooks={webhooks}
+                    index={index}
+                    key={index}
+                    open={open}
+                    handleActionflowClick={handleActionflowClick}
+                    handleWebhookUpload={handleWebhookUpload}
+                  />)
+                : <React.Fragment />
+              }
+            </Box>
           </List>
         </Paper>
       </Grid>

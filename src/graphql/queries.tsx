@@ -42,6 +42,9 @@ fragment ProjectDetailsFragment on Project {
   customizedMcToken
   customizedMcDefaultPassword
   adminToken
+  deploymentEnvConfigs {
+    exId
+  }
   managementConsoleUrl(
     deploymentEnvConfigName: "production"
     userDeploymentEnvironment: PRODUCTION

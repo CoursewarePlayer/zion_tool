@@ -28,7 +28,7 @@ const theme = createTheme({
       disabled: "#666666"
     },
     info: {
-      main: '#aaa',
+      main: '#eee',
       dark: "1e1f26",
       light: "#1e1f26"
     }
@@ -43,8 +43,8 @@ const theme = createTheme({
             scrollbarWidth: 'thin',
           },
           '*::-webkit-scrollbar': {
-            width: '4px',
-            height: '4px',
+            width: '0px',
+            height: '0px',
           }
         }
     }

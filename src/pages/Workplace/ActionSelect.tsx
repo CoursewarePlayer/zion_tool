@@ -45,7 +45,7 @@ export default function SplitButton() {
 
   return (
     <React.Fragment>
-      <ButtonGroup sx={{mb: 3}} color='info' variant="text" ref={anchorRef} aria-label="outlined button group">
+      <ButtonGroup sx={{mb: 1}} color='info' variant="text" ref={anchorRef} aria-label="outlined button group">
         <Button fullWidth={true} onClick={handleClick}>{options[selectedIndex]}</Button>
         <Button
           size="small"
