@@ -1,0 +1,1 @@
+export const API_GRAPHQL = "https://zionbackend.functorz.com/api/graphql";
